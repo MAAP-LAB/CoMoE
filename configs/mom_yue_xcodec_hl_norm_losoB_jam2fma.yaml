@@ -1,0 +1,53 @@
+# YuE xcodec_mini H+L MoE on normalised MoM-CLAM.
+# Tokens: xcodec_mini RVQ @ 6kbps (12 codebooks), kept layers [L0, L1, L10, L11] as (4, T) int16.
+#   Channel 0 = xcodec L0   -> low expert
+#   Channel 1 = xcodec L1   -> low expert
+#   Channel 2 = xcodec L10  -> high expert
+#   Channel 3 = xcodec L11  -> high expert
+# Music-trained codec (semantic HuBERT-style + acoustic DAC, joint RVQ), 50 Hz, 16k sr.
+# NO semantic expert (H+L only).
+# Fake-LOSO A: train fake = Suno-v3.5 only; OOD = all other fakes.
+data:
+  token_dir: ${COMOE_DATA_ROOT}/tokens_mom_norm/yue_xcodec_L0_L1_L10_L11
+  meta_csv: data/splits/metadata_mom_norm.csv
+  split_train: data/splits/split_mom_train_norm_losoB_jam2fma.json
+  split_val: data/splits/split_mom_val_norm_losoB_jam2fma.json
+  split_ood: data/splits/split_mom_ood_norm_losoB_jam2fma.json
+  codebook_size: 1024
+  n_codebooks: 4
+  max_frames: 1500
+  crop_frames: 1500
+
+model:
+  d_model: 256
+  n_heads: 4
+  n_layers: 4
+  dropout: 0.2
+  fusion: late_mean
+  low_layers: [0, 1]
+  high_layers: [2, 3]
+  use_semantic: false
+  use_low: true
+  use_high: true
+  use_latent: false
+
+train:
+  batch_size: 96
+  num_workers: 8
+  lr: 2.0e-4
+  weight_decay: 0.01
+  epochs: 12
+  warmup_steps: 200
+  grad_clip: 1.0
+  label_smoothing: 0.05
+  seed: 42
+  device: cuda
+  amp: true
+  log_every_steps: 25
+  save_dir: runs/mom_yue_xcodec_hl_norm_losoB_jam2fma
+
+wandb:
+  enabled: false
+  project: comoe
+  name: mom_yue_xcodec_hl_norm_losoB_jam2fma
+  mode: offline

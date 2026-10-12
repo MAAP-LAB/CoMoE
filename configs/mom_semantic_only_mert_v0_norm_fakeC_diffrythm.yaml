@@ -1,0 +1,52 @@
+# Fake-LOSO C: train fake = DiffRhythm only (~4k clips).
+data:
+  token_dir: ${COMOE_DATA_ROOT}/tokens_mom/encodec24k
+  meta_csv: data/splits/metadata_mom_norm.csv
+  split_train: data/splits/split_mom_train_norm_fakeC_diffrythm.json
+  split_val: data/splits/split_mom_val_norm_fakeC_diffrythm.json
+  split_ood: data/splits/split_mom_ood_norm_fakeC_diffrythm.json
+  semantic_npz: ${COMOE_DATA_ROOT}/feats_mom_norm/mert_v0_pooled.npz
+  semantic_dir: ${COMOE_DATA_ROOT}/feats_mom_norm/mert_v0
+  semantic_dim: 768
+  codebook_size: 1024
+  n_codebooks: 8
+  max_frames: 750
+  crop_frames: 750
+
+model:
+  d_model: 256
+  n_heads: 4
+  n_layers: 4
+  dropout: 0.2
+  fusion: late_mean
+  low_layers: [0, 1]
+  high_layers: [5, 6, 7]
+  use_semantic: true
+  use_low: false
+  use_high: false
+  use_latent: false
+  mert_multilayer_groups:
+    - [0, 1, 2, 3]
+    - [4, 5, 6, 7, 8]
+    - [9, 10, 11, 12]
+
+train:
+  batch_size: 128
+  num_workers: 8
+  lr: 2.0e-4
+  weight_decay: 0.01
+  epochs: 12
+  warmup_steps: 200
+  grad_clip: 1.0
+  label_smoothing: 0.05
+  seed: 42
+  device: cuda
+  amp: true
+  log_every_steps: 25
+  save_dir: runs/mom_semantic_only_mert_v0_norm_fakeC_diffrythm
+
+wandb:
+  enabled: false
+  project: comoe
+  name: mom_semantic_only_mert_v0_norm_fakeC_diffrythm
+  mode: offline

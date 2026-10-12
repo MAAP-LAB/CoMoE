@@ -1,0 +1,48 @@
+# Token-only MoE: EnCodec 24k tokens from NORMALISED MoM-CLAM (30 s, -14 LUFS, mp3 192k).
+# No semantic expert. Tests whether codec tokens alone (no SSL audio features)
+# capture content-level discrimination once the file-format leak is removed.
+data:
+  token_dir: ${COMOE_DATA_ROOT}/tokens_mom_norm/encodec24k
+  meta_csv: data/splits/metadata_mom_norm.csv
+  split_train: data/splits/split_mom_train_norm.json
+  split_val: data/splits/split_mom_val_norm.json
+  split_ood: data/splits/split_mom_ood_norm.json
+  semantic_dim: 768  # unused (use_semantic=false)
+  codebook_size: 1024
+  n_codebooks: 8
+  max_frames: 750
+  crop_frames: 750
+
+model:
+  d_model: 256
+  n_heads: 4
+  n_layers: 4
+  dropout: 0.2
+  fusion: late_mean
+  low_layers: [0, 1]
+  high_layers: [5, 6, 7]
+  use_semantic: false
+  use_low: true
+  use_high: true
+  use_latent: false
+
+train:
+  batch_size: 128
+  num_workers: 8
+  lr: 2.0e-4
+  weight_decay: 0.01
+  epochs: 12
+  warmup_steps: 200
+  grad_clip: 1.0
+  label_smoothing: 0.05
+  seed: 42
+  device: cuda
+  amp: true
+  log_every_steps: 25
+  save_dir: runs/mom_encodec_tokenonly_norm
+
+wandb:
+  enabled: false
+  project: comoe
+  name: mom_encodec_tokenonly_norm
+  mode: offline

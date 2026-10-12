@@ -1,0 +1,48 @@
+data:
+  token_dir: ${COMOE_DATA_ROOT}/feats_mom_norm/mert_v0_frames_L0_L1_L11_L12_T300
+  meta_csv: data/splits/metadata_mom_norm.csv
+  split_train: data/splits/split_mom_train_norm_fakeB_udio.json
+  split_val: data/splits/split_mom_val_norm_fakeB_udio.json
+  split_ood: data/splits/split_mom_ood_norm_fakeB_udio.json
+  codebook_size: 1024
+  n_codebooks: 4
+  max_frames: 300
+  crop_frames: 300
+  continuous: true
+  continuous_in_dim: 768
+model:
+  d_model: 256
+  n_heads: 4
+  n_layers: 4
+  dropout: 0.2
+  fusion: late_mean
+  low_layers:
+  - 0
+  - 1
+  high_layers:
+  - 2
+  - 3
+  use_semantic: false
+  use_low: true
+  use_high: true
+  use_latent: false
+train:
+  batch_size: 96
+  num_workers: 8
+  lr: 0.0002
+  weight_decay: 0.01
+  epochs: 12
+  warmup_steps: 200
+  grad_clip: 1.0
+  label_smoothing: 0.05
+  seed: 42
+  device: cuda
+  amp: true
+  log_every_steps: 25
+  save_dir: runs/mom_mert_continuous_hl_norm_fakeB_udio
+wandb:
+  enabled: false
+  project: comoe
+  name: mom_mert_continuous_hl_norm_fakeB_udio
+  mode: offline
+

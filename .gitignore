@@ -1,0 +1,26 @@
+# experiment outputs
+runs/
+wandb/
+*.pt
+*.pth
+*.ckpt
+
+# large artefacts live under $COMOE_DATA_ROOT, never in the repo
+data_root/
+third_party/
+*.npy
+*.npz
+!assets/*.npz
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+
+# editors / OS
+.vscode/
+.idea/
+.DS_Store

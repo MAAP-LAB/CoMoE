@@ -1,0 +1,63 @@
+data:
+  token_dir: ${COMOE_DATA_ROOT}/tokens_mom_norm/yue_xcodec_L0_L1_L10_L11
+  meta_csv: data/splits/metadata_mom_norm.csv
+  split_train: data/splits/split_mom_train_norm.json
+  split_val: data/splits/split_mom_val_norm.json
+  split_ood: data/splits/split_mom_ood_norm.json
+  codebook_size: 1024
+  n_codebooks: 4
+  max_frames: 1500
+  crop_frames: 1500
+  semantic_npz: ${COMOE_DATA_ROOT}/feats_mom_norm/mert_v0_pooled.npz
+  semantic_dir: ${COMOE_DATA_ROOT}/feats_mom_norm/mert_v0
+  semantic_dim: 768
+model:
+  d_model: 256
+  n_heads: 4
+  n_layers: 4
+  dropout: 0.2
+  fusion: late_mean
+  low_layers:
+  - 0
+  - 1
+  high_layers:
+  - 2
+  - 3
+  use_semantic: true
+  use_low: true
+  use_high: true
+  use_latent: false
+  mert_multilayer_groups:
+  - - 0
+    - 1
+    - 2
+    - 3
+  - - 4
+    - 5
+    - 6
+    - 7
+    - 8
+  - - 9
+    - 10
+    - 11
+    - 12
+train:
+  batch_size: 96
+  num_workers: 8
+  lr: 0.0002
+  weight_decay: 0.01
+  epochs: 12
+  warmup_steps: 200
+  grad_clip: 1.0
+  label_smoothing: 0.05
+  seed: 42
+  device: cuda
+  amp: true
+  log_every_steps: 25
+  save_dir: runs/mom_yue_xcodec_hls_norm
+wandb:
+  enabled: false
+  project: comoe
+  name: mom_yue_xcodec_hls_norm
+  mode: offline
+

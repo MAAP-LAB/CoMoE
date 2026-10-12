@@ -1,0 +1,23 @@
+# Core (tested with Python 3.13, torch 2.10 + CUDA 12.8; any torch >= 2.4 should work)
+torch>=2.4
+torchaudio>=2.4
+numpy<2
+pyyaml
+scikit-learn
+pandas
+
+# Tokenizers / feature extractors
+encodec==0.1.1                 # EnCodec 24 kHz
+descript-audio-codec==1.0.0    # DAC 44.1 kHz
+descript-audiotools
+transformers>=4.40             # MERT-v0-public, MERT-v1-95M, Wav2Vec2 (trust_remote_code)
+nnAudio                        # optional: silences MERT's CQT feature-extractor warning
+
+# Data preparation (data/normalize_mom.py, CLAM audio cache)
+librosa
+soundfile
+pyloudnorm
+joblib
+
+# Optional experiment tracking (off by default; set wandb.enabled: true in a config)
+# wandb

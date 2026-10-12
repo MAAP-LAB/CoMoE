@@ -1,0 +1,47 @@
+# Fake-LOSO A (Token-only): train fake=Suno-v3.5 only.
+# OOD includes held-out DiffRhythm + Suno v2 + Udio + original OOD fakes.
+data:
+  token_dir: ${COMOE_DATA_ROOT}/tokens_mom_norm/encodec24k
+  meta_csv: data/splits/metadata_mom_norm.csv
+  split_train: data/splits/split_mom_train_norm_fakeA_sunov35.json
+  split_val: data/splits/split_mom_val_norm_fakeA_sunov35.json
+  split_ood: data/splits/split_mom_ood_norm_fakeA_sunov35.json
+  semantic_dim: 768
+  codebook_size: 1024
+  n_codebooks: 8
+  max_frames: 750
+  crop_frames: 750
+
+model:
+  d_model: 256
+  n_heads: 4
+  n_layers: 4
+  dropout: 0.2
+  fusion: late_mean
+  low_layers: [0, 1]
+  high_layers: [5, 6, 7]
+  use_semantic: false
+  use_low: true
+  use_high: true
+  use_latent: false
+
+train:
+  batch_size: 128
+  num_workers: 8
+  lr: 2.0e-4
+  weight_decay: 0.01
+  epochs: 12
+  warmup_steps: 200
+  grad_clip: 1.0
+  label_smoothing: 0.05
+  seed: 42
+  device: cuda
+  amp: true
+  log_every_steps: 25
+  save_dir: runs/mom_encodec_tokenonly_norm_fakeA_sunov35
+
+wandb:
+  enabled: false
+  project: comoe
+  name: mom_encodec_tokenonly_norm_fakeA_sunov35
+  mode: offline
