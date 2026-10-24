@@ -1,9 +1,13 @@
-# CoMoE — Probing Token Spaces under Generator Shift in AI-Generated Music Detection
+# CoMoE — Token Space Matters under Generator Shift
 
 Code, split definitions and k-means codebooks for
 
-> **Probing Token Spaces under Generator Shift in AI-Generated Music Detection**
-> ICML 2026 Workshop on Machine Learning for Audio (non-archival) · [arXiv:2606.08663](https://arxiv.org/abs/2606.08663)
+> **Token Space Matters under Generator Shift: A Controlled Study of AI-Generated Music Detection**
+> Joonyong Park, Jungwoo Kim, Junyoung Koh, Yuki Saito · submitted to ICASSP 2027
+>
+> An earlier version appeared at the ICML 2026 Workshop on Machine Learning for Audio
+> (non-archival) as *Probing Token Spaces under Generator Shift in AI-Generated Music
+> Detection*, [arXiv:2606.08663](https://arxiv.org/abs/2606.08663).
 
 CoMoE (Codec-Mixture-of-Experts) is a small (~10 M parameter) classifier with a
 fixed four-stream token interface.  Keeping the classifier fixed and swapping
@@ -14,8 +18,8 @@ MoM-CLAM benchmark whose real side is FMA-medium + MTG-Jamendo, under the
 standard split and under source-restricted (generator-shift) splits.
 
 > **Status.** The code and split definitions are final.  Trained checkpoints
-> and the per-run prediction files will be attached to a GitHub release; the
-> results table in this README will be filled in at the same time.
+> and the per-run prediction files will be attached to a GitHub release.
+> For the results, see the paper.
 
 ## Repository layout
 
@@ -164,12 +168,11 @@ recomputed without training.  Load a checkpoint with `python -m comoe.predict --
 ## Citation
 
 ```bibtex
-@inproceedings{park2026comoe,
-  title     = {Probing Token Spaces under Generator Shift in AI-Generated Music Detection},
-  author    = {Park, Joonyong and others},
-  booktitle = {ICML 2026 Workshop on Machine Learning for Audio},
-  year      = {2026},
-  note      = {arXiv:2606.08663}
+@misc{park2026tokenspace,
+  title  = {Token Space Matters under Generator Shift: A Controlled Study of AI-Generated Music Detection},
+  author = {Park, Joonyong and Kim, Jungwoo and Koh, Junyoung and Saito, Yuki},
+  year   = {2026},
+  note   = {Submitted to ICASSP 2027. Earlier version: arXiv:2606.08663}
 }
 ```
 
